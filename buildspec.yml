@@ -17,7 +17,6 @@ phases:
       - aws ec2 create-key-pair --key-name MyKeyPair --query 'KeyMaterial' --output text > MyKeyPair.pem
       - chmod 400 MyKeyPair.pem
       - aws ec2 run-instances --image-id ami-014b57929052d0007 --count 1 --instance-type t2.micro --key-name MyKeyPair.pem --security-group-ids sg-72223e1a --subnet-id subnet-cd1476a5 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=SecurityTest},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]' 'ResourceType=volume,Tags=[{Key=Name,Value=SeccurityTest},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]'> instance.json
-      - instance_id=`cat instance.json | jq '.Instances[].InstanceId' --r
       - aws ec2 describe-instances --instance-id instance_id| jq '.Reservations[].Instances[] | select(contains({Tags: [{Key: "Name", "Owner", "Creator", "ApplicationID", "CostCenter", "Product"} ]}) | not)'
   post_build:
     commands:
