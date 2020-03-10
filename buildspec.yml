@@ -6,7 +6,9 @@ phases:
     install:
         runtime-versions:
             python: 3.8
-    pre_build: null
+    pre_build: 
+        commands:
+            - echo "do nothing"
     build:
         commands:
             - 'echo Starting test Proper Tagging'
