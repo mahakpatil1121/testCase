@@ -8,13 +8,16 @@ phases:
             python: 3.8
     pre_build: 
         commands:
-            - echo do nothing
+            - curl -qL -o jq https://stedolan.github.io/jq/download/linux64/jq && chmod +x ./jq
     build:
         commands:
             - echo Starting test Proper Tagging
             - echo Create a new VM with corrcet set of tags
             - aws ec2 create-key-pair --key-name MyKeyPair --query ''KeyMaterial'' --output text > MyKeyPair.pem
             - chmod 400 MyKeyPair.pem
+            - aws ec2 run-instances --image-id ami-004e54648b98fa6ab --count 1 --instance-type t2.micro --key-name MyKeyPair.pem --security-group-ids sg-045ec3018af554be9 --subnet-id subnet-030eb4694da9d77ac --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=xh575-test-case},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]' 'ResourceType=volume,Tags=[{Key=Name,Value=xh575-test-case},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]'> instance.json
+    finally:
+            - echo DONE
     post_build:
         commands:
             - echo Build completed on `date`
