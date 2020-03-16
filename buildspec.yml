@@ -8,16 +8,16 @@ phases:
             python: 3.8
     pre_build: 
         commands:
-            - echo "do nothing"
+            - echo do nothing
     build:
         commands:
-            - 'echo Starting test Proper Tagging'
-            - 'echo Create a new VM with corrcet set of tags'
-            - 'aws ec2 create-key-pair --key-name MyKeyPair --query ''KeyMaterial'' --output text > MyKeyPair.pem'
-            - 'chmod 400 MyKeyPair.pem'
+            - echo Starting test Proper Tagging
+            - echo Create a new VM with corrcet set of tags
+            - aws ec2 create-key-pair --key-name MyKeyPair --query ''KeyMaterial'' --output text > MyKeyPair.pem
+            - chmod 400 MyKeyPair.pem
     post_build:
         commands:
-            - 'echo Build completed on `date`'
+            - echo Build completed on `date`
         finally: null
 artifacts:
     files:
