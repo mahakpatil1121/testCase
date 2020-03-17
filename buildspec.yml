@@ -12,10 +12,8 @@ phases:
     build:
         commands:
             - echo Starting test Proper Tagging
-            - echo Create a new VM with corrcet set of tags
-            - aws ec2 create-key-pair --key-name MyKeyPair1 --query ''KeyMaterial'' --output text > MyKeyPair1.pem
-            - chmod 400 MyKeyPair1.pem
-            - aws ec2 run-instances --image-id ami-004e54648b98fa6ab --count 1 --instance-type t2.micro --key-name MyKeyPair1.pem --security-group-ids sg-045ec3018af554be9 --subnet-id subnet-030eb4694da9d77ac --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=xh575-test-case},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]' 'ResourceType=volume,Tags=[{Key=Name,Value=xh575-test-case},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]'> instance.json
+            - echo Create a new VM with corrcet set of tags            
+            - aws ec2 run-instances --image-id ami-004e54648b98fa6ab --count 1 --instance-type t2.micro --key-name MyKeyPair.pem --security-group-ids sg-045ec3018af554be9 --subnet-id subnet-030eb4694da9d77ac --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=xh575-test-case},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]' 'ResourceType=volume,Tags=[{Key=Name,Value=xh575-test-case},{Key=Owner,Value=xh575},{Key=Creator,Value=xh575},{Key=CostCenter,Value=6434},{Key=Product,Value=Infrastructure},{Key=ApplicationID,Value=AID390}]'> instance.json
             - cat instance.json
             - INSTANCE_ID=`cat instance.json | jq '.Instances[].InstanceId' --raw-output`
             - echo ${INSTANCE_ID}
