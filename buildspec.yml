@@ -12,7 +12,6 @@ phases:
     build:
         commands:
             - echo Starting test Proper Tagging
-            - rm MyKeyPair.pem
             - echo Create a new VM with corrcet set of tags
             - aws ec2 create-key-pair --key-name MyKeyPair --query ''KeyMaterial'' --output text > MyKeyPair.pem
             - chmod 400 MyKeyPair.pem
