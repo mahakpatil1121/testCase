@@ -17,6 +17,9 @@ phases:
             - cat instance.json
             - INSTANCE_ID=`cat instance.json | jq '.Instances[].InstanceId' --raw-output`
             - echo ${INSTANCE_ID}
+            - aws ec2 wait system-status-ok --instance-ids ${INSTANCE_ID}
+            - tags=$(aws ec2 describe-tags --output text --filters "Name=resource-id,Values=${INSTANCE_ID}")
+            - echo ${tags}
     post_build:
         commands:
             - echo Build completed on `date`    
