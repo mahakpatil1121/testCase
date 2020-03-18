@@ -22,11 +22,11 @@ phases:
             - echo ${tags}
             - tag_keys=`cat instance.json | jq '.Instances[].Tags[].Key' --raw-output`
             - echo ${tag_keys}
-            - sorted-tag_keys=tag_key.sort()
-            - sorted-reguqired_tags=tag_key.sort()
+            - sort ${tag_keys}
+            - sort ${required_tags}
             - echo sorted tag keys of instance ${sorted-tag_keys}
             - echo sorted required tags ${sorted-reguqired_tags}
-            - if (sorted-tag_keys==sorted-reguqired_tags) {echo same}            
+            - if [sort ${tag_keys}==sort ${required_tags}) {echo same}            
     post_build:
         commands:
             - echo Build completed on `date`    
