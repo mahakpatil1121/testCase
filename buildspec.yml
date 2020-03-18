@@ -17,11 +17,16 @@ phases:
             - cat instance.json
             - INSTANCE_ID=`cat instance.json | jq '.Instances[].InstanceId' --raw-output`
             - echo ${INSTANCE_ID}
+            - required_tags=[ "Product",  "Name",  "Creator",  "Owner",  "CostCenter", "ApplicationID"]
             - tags=$(aws ec2 describe-tags --output text --filters "Name=resource-id,Values=${INSTANCE_ID}")
             - echo ${tags}
             - tag_keys=`cat instance.json | jq '.Instances[].Tags[].Key' --raw-output`
             - echo ${tag_keys}
-            
+            - sorted-tag_keys=tag_key.sort()
+            - sorted-reguqired_tags=tag_key.sort()
+            - echo sorted tag keys of instance ${sorted-tag_keys}
+            - echo sorted required tags ${sorted-reguqired_tags}
+            - if (sorted-tag_keys==sorted-reguqired_tags) {echo same}            
     post_build:
         commands:
             - echo Build completed on `date`    
